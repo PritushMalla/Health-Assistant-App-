@@ -1,0 +1,56 @@
+name: mood_tracker
+description: "A new Flutter project."
+
+# Prevent accidental publishing to pub.dev.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  path_provider: any
+  intl: ^0.19.0
+  sqflite: ^2.3.3+1
+  http: ^1.2.2
+  sizer: ^3.0.0
+  path: ^1.9.0
+
+  firebase_core: ^3.4.0
+  firebase_auth: ^5.2.0
+  firebase_ui_auth: ^1.15.0
+  modal_progress_hud_nsn: ^0.5.0
+  cloud_firestore: ^5.4.0
+  # flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.0
+  awesome_notifications: ^0.9.3+1
+  flutter_datetime_picker_plus: ^2.2.0
+  fl_chart: ^0.69.0
+  image_picker: ^0.8.5+3
+  permission_handler: ^11.3.1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Enable generation of localized Strings from arb files.
+  generate: true
+
+  assets:
+    # Add assets from the images directory to the application.
+    - assets/images/
+    - assets/images/OleoScript-Regular.ttf
+

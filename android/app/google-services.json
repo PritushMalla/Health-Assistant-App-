@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1060244386396",
+    "project_id": "mentalhealth-d6e6e",
+    "storage_bucket": "mentalhealth-d6e6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060244386396:android:a7272b26c5314cb0886c99",
+        "android_client_info": {
+          "package_name": "com.example.mood_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzjSenuQg3n6qonWbBqBCOoHY-UvFOQrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

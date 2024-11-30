@@ -1,0 +1,6 @@
+{
+  "appTitle": "mood_tracker",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
