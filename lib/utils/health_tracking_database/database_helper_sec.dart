@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:mood_tracker/models/mood_tracker/mooddata.dart';
-import 'package:mood_tracker/utils/mood_tracking_database/database_helper_sec.dart';
+import 'package:mood_tracker/utils/health_tracking_database/database_helper_sec.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
@@ -24,7 +24,7 @@ class DatabaseHelper_Mood {
   }
   Future<Database> initializeDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path, 'moodnote2.db');
+    String path = join(directory.path, 'moodnote3.db');
     print(path);
     // Opening/Creating database at the given path
     return await openDatabase(path, version: 1, onCreate: _createDb);
@@ -53,22 +53,23 @@ class DatabaseHelper_Mood {
 
   Future<List<Map<String, dynamic>>> getMoodtitleMapList() async {
     Database db = await database;
-    var result = await db.rawQuery('SELECT * FROM $moodTable ORDER BY date DESC LIMIT 5');
+    var result = await db
+        .rawQuery('SELECT * FROM $moodTable ORDER BY date DESC LIMIT 5');
 
     // Debugging output to see the retrieved data
     for (var moodData in result) {
-      print("Retrieved Mood ID: ${moodData[colId]}, Mood: ${moodData[colmoodtitle]}, Date: ${moodData[colDate]}, Description: ${moodData[colDescription]}");
+      print(
+          "Retrieved Mood ID: ${moodData[colId]}, Mood: ${moodData[colmoodtitle]}, Date: ${moodData[colDate]}, Description: ${moodData[colDescription]}");
     }
 
     return result;
   }
-  
 
   Future<List<MoodData>> getmoodtitleList() async {
     var moodtitleMapList = await getMoodtitleMapList();
 
     print(" the moodtitle map list print is $moodtitleMapList");
-   // get map list from database
+    // get map list from database
     DateTime today = DateTime.now();
 
     int count = moodtitleMapList.length;

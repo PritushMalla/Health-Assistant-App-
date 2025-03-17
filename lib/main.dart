@@ -1,18 +1,36 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:mood_tracker/Accounts/Signup.dart';
 import 'package:mood_tracker/Accounts/login.dart';
 import 'package:mood_tracker/Accounts/logout.dart';
+import 'package:mood_tracker/Call.dart';
+import 'package:mood_tracker/Doctorview.dart';
+import 'package:mood_tracker/Emergency.dart';
+import 'package:mood_tracker/Health/symptompredict.dart';
 import 'package:mood_tracker/Home.dart';
+import 'package:mood_tracker/fetchrole.dart';
 import 'package:mood_tracker/models/Pill_reminder/pill.dart';
+import 'package:mood_tracker/models/model.dart';
+import 'package:mood_tracker/role.dart';
 import 'package:mood_tracker/screen/Admin/Admin_prof_list.dart';
-import 'package:mood_tracker/screen/Doctors/Doctors.dart';
+import 'package:mood_tracker/screen/Doctor_Side/patientdata.dart';
+import 'package:mood_tracker/screen/Doctor_Side/patientlist.dart';
+import 'package:mood_tracker/screen/Doctor_Side/sendpatient.dart';
+import 'package:mood_tracker/screen/Patient_Side/Doctors.dart';
+import 'package:mood_tracker/screen/Patient_Side/doclist.dart';
+import 'package:mood_tracker/screen/Patient_Side/doctorfeedback.dart';
 import 'package:mood_tracker/screen/Pill_reminder/confirmreminder.dart';
 import 'package:mood_tracker/screen/Quiz/Depressionquiz.dart';
+import 'package:mood_tracker/screen/diet_recommendation/diet_recommend.dart';
+import 'package:mood_tracker/screen/diet_recommendation/diet_recommender.dart';
 
 import 'package:mood_tracker/screen/moodtracker/moodtrackfront.dart';
 import 'package:mood_tracker/screen/moodtracker/moodtracklist.dart';
 import 'package:mood_tracker/Accounts/welcome_screen.dart';
+import 'package:mood_tracker/screen/report/report.dart';
 
 import 'screen/cbt_track/formlist.dart';
 import 'screen/Quiz/Anxietyquiz.dart';
@@ -81,7 +99,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
@@ -93,6 +111,22 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// class GET extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetMaterialApp(
+//       title: 'Health Assistant',
+//       initialRoute: '/', // You can set an initial route if you need
+//       getPages: [
+//         // Define your routes here
+//        , // Example of HomePage route
+//         GetPage(
+//             name: '/patient', page: () => Sendpatient()), // Patient page route
+//       ],
+//     );
+//   }
+// }
 
 class AuthGate extends StatelessWidget {
   @override
@@ -113,80 +147,28 @@ class AuthGate extends StatelessWidget {
     );
   }
 }
-//
-// class AppLanding extends StatefulWidget {
-//   const AppLanding({Key? key}) : super(key: key);
 
-// @override
-// State<AppLanding> createState() => _AppLandingState();
-// }
-// DatabaseHelper databaseHelper=DatabaseHelper();
-//class _AppLandingState extends State<AppLanding> {
-//   int _selectedIndex = 0;
-//
-//
-//
-//
-//
-//
-//
-// //   List<Widget> pages = [
-// //   Drawers(),
-// //     moody(),
-// //     Formlist(),
-// //   ];
-// // Formlist formlist2=Formlist();
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //
-// //         title: const Text('Mental health'),
-// //       ),
-// //       body:
-// //
-// //
-// //
-// //
-// //       pages[_selectedIndex],
-// //       bottomNavigationBar: BottomNavigationBar(
-// //         currentIndex: _selectedIndex,
-// //         onTap: (value) {
-// //           setState(() {
-// //             _selectedIndex = value;
-// //           });
-// //         },
-// //         items: <BottomNavigationBarItem>[
-// //           BottomNavigationBarItem(
-// //             icon: Icon(Icons.home),
-// //             label: 'Home',
-// //           ),
-// //           BottomNavigationBarItem(
-// //             icon: Icon(Icons.people),
-// //             label: 'CBT form ',
-// //           ),
-// //           BottomNavigationBarItem(
-// //             icon: Icon(Icons.note),
-// //             label: 'Quiz',
-// //           )
-// //         ],
-// //         unselectedItemColor: Colors.black,
-// //         selectedItemColor: Colors.blue,
-// //       ),
-// //     );
-// //
-// //
-// //
-// //
-// //   }
-//
-//
+class acccontrol extends StatelessWidget {
+  const acccontrol({super.key});
 
-//
-//}
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+User? user = FirebaseAuth.instance.currentUser;
+
+var emaill = '';
+var id = '';
+
+String? getCurrentUserId() {
+  User? user = FirebaseAuth.instance.currentUser;
+  return user?.uid;
+}
 
 class Drawers extends StatelessWidget {
-  const Drawers({super.key});
+  Drawers({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -214,51 +196,36 @@ class Drawers extends StatelessWidget {
     return Column(children: [
       SizedBox(height: 50),
       buildListTile(
-          Icons.emoji_emotions, 'Mood Assessment', Moodfront(), context),
-      buildListTile(Icons.note, 'CBT form ', Formlist(), context),
+          Icons.medical_information, 'DoctorView', RoleBasedView(), context),
+
+      buildListTile(
+          Icons.emoji_emotions, 'Health Assessment', Moodfront(), context),
 
       // buildListTile(
       //     Icons.newspaper, 'Mentalhealth Info ', mentalhinfo(), context),
-      buildListTile(Icons.newspaper, 'Pill Reminder ', Pillremind(), context),
-      buildListTile(Icons.newspaper, 'Mood history ', Moodlist(), context),
+      buildListTile(
+          Icons.medication_outlined, 'Pill Reminder ', Pillremind(), context),
+      buildListTile(
+          Icons.newspaper, 'Health Assessment history ', Moodlist(), context),
+      buildListTile(Icons.list, 'Doc List ', DoctorListScreen(), context),
+      buildListTile(Icons.sick, 'Emergency', Call(), context),
+      buildListTile(Icons.medical_information, 'Symptom Testing',
+          Symptompredict(), context),
+      buildListTile(Icons.medical_information, 'Diet Recommendation',
+          DietRecommend(), context),
+      buildListTile(
+          Icons.feedback, 'Doctor Feedback ', FeedbackListScreen(), context),
       ExpansionTile(
-        title: Text('Quizzes'),
+        title: Text('Psycological Health'),
         children: <Widget>[
+          buildListTile(Icons.note, 'CBT form ', Formlist(), context),
           buildListTile(
               Icons.healing, 'Anxiety Quiz ', AnxietyQuizApp(), context),
           buildListTile(Icons.healing, 'Depression Quiz ',
               DepressionQuizScreen(), context),
         ],
       ),
-      // buildListTile(Icons.sick, 'Emergency Hotline ', Emergency(), context),
-
-      FutureBuilder<User?>(
-        future: FirebaseAuth.instance.authStateChanges().first,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            // Define the admin email
-            final String adminEmail = 'pritushmalla@gmail.com';
-            final userEmail = snapshot.data?.email;
-
-            // Show Admin Page only for admin
-            if (userEmail == adminEmail) {
-              return buildListTile(
-                Icons.sick,
-                'Admin Page',
-                Proflist(),
-                context,
-              );
-            }
-          }
-          // Return an empty container if not admin
-          return Container();
-        },
-      ),
-      //Proflist
-      buildListTile(Icons.person_3_sharp, 'Doctors ', Doctors(), context),
-      buildListTile(
-          Icons.person_3_sharp, 'Login/SignUp ', WelcomeScreen(), context),
-
+      //buildListTile(Icons.person_3_sharp, 'Doctors ', Doctors(), context),
       ListTile(
           leading: Icon(Icons.logout),
           title: Text('Logout'),

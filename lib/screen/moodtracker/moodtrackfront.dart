@@ -33,7 +33,7 @@ class Moodfront extends StatelessWidget {
             width: 2.inches,
             height: 70,
             child: FloatingActionButton(
-                child: Text("Record Your Feelings"),
+                child: Text("Track Your Health"),
                 onPressed: () {
                   Navigator.push(
                       context,

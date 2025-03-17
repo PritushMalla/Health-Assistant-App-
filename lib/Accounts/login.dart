@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
   bool showSpinner = false;
+  String? errorMessage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,18 +58,36 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 8.0,
               ),
-              TextField(
-                  obscureText: true,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    password = value;
-                    //Do something with the user input.
-                  },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your password.')),
+              TextFormField(
+                obscureText: true,
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  password = value;
+                  //Do something with the user input.
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters long';
+                  }
+                  return null;
+                },
+                decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Enter your password.'),
+              ),
               SizedBox(
                 height: 24.0,
               ),
+              if (errorMessage != null) ...[
+                Text(
+                  errorMessage!,
+                  style: TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                )
+              ],
+              SizedBox(height: 10),
               ElevatedButton(
                   child: Text("Login"),
                   style: ButtonStyle(
@@ -87,8 +106,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         (Route<dynamic> route) =>
                             false, // Removes all previous routes
                       );
+                    } on FirebaseAuthException catch (e) {
+                      setState(() {
+                        errorMessage = e.message; // Ensure this is updated
+                        print(errorMessage); // Debug message
+                      });
                     } catch (e) {
-                      print(e);
+                      setState(() {
+                        errorMessage = 'An unexpected error occurred.';
+                      });
                     }
                     setState(() {
                       showSpinner = false;

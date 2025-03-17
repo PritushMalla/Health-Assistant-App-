@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mood_tracker/main.dart';
-import 'package:mood_tracker/screen/Doctors/Docdetail.dart';
+import 'package:mood_tracker/screen/Patient_Side/Docdetail.dart';
 import 'package:mood_tracker/models/professional/profs.dart';
 import 'package:mood_tracker/screen/Admin/Admin_prof_list.dart';
 import 'package:mood_tracker/utils/Professional_database/database_helper_pro.dart';

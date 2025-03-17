@@ -14,17 +14,17 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image(image: AssetImage("assets/images/loginimg.jpeg")),
+            Image(image: AssetImage("assets/images/frontscreen.webp")),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 children: [
-                  Text("Strengthen Your Mental Health From Today ",
+                  Text("Strengthen Your Health From Today ",
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 30,
                   ),
-                  Text('Lets Start Working On Improving Our Mental Health'),
+                  Text('Lets Start Working On Improving Our  Health'),
                   SizedBox(
                     height: 30,
                   ),

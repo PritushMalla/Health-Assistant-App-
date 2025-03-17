@@ -41,6 +41,7 @@ android {
     }
     namespace 'com.example.local_notification_app_demo'
 
+
     defaultConfig {
         applicationId "com.example.local_notification_app_demo"
         minSdkVersion flutter.minSdkVersion

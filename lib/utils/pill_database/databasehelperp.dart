@@ -49,12 +49,9 @@ class DatabaseHelper_pill {
     return _database!;
   }
 
-
   Future<Database> initializeDatabase() async {
-
     Directory directory = await getApplicationDocumentsDirectory();
     String path = join(directory.path, 'pills2.db');
-
 
     // Opening Creating database at the given path
     return await openDatabase(
@@ -62,15 +59,12 @@ class DatabaseHelper_pill {
       version: 1,
       onCreate: _createDb,
     );
-    try{
+    try {
       if (kDebugMode) {
         print(path);
       }
-
-    }
-    catch(e){
+    } catch (e) {
       print("error$e");
-
     }
   }
 
@@ -87,7 +81,7 @@ class DatabaseHelper_pill {
 
   Future<int?> insertpill(Pill pill) async {
     Database db = await database;
-  int?id;
+    int? id;
     try {
       id = await db.insert(PillTable, pill.toMap());
       print('Details : $PillTable');
@@ -131,7 +125,8 @@ class DatabaseHelper_pill {
     int count = PillMapList.length; // map list ko length jati hunu paryo count
     List<Pill> pilllist = [];
     for (int i = 0; i < count; i++) {
-   pilllist.add(Pill.fromMapObject(PillMapList[i])); // map list liera teslai  pilllist ma convert garera liney ani tyo naya form list ma add garne
+      pilllist.add(Pill.fromMapObject(PillMapList[
+          i])); // map list liera teslai  pilllist ma convert garera liney ani tyo naya form list ma add garne
     }
     return pilllist;
   }

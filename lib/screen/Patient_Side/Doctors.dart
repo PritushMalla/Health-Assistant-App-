@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mood_tracker/main.dart';
 
 import 'package:mood_tracker/models/professional/profs.dart';
-import 'package:mood_tracker/screen/Doctors/Docdetail.dart';
+import 'package:mood_tracker/screen/Patient_Side/Docdetail.dart';
 import 'package:mood_tracker/utils/Professional_database/database_helper_pro.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -35,7 +35,7 @@ class _DoctorsState extends State<Doctors> {
     }
     return Scaffold(
       appBar: AppBar(title: const Text('Doctors ')),
-      drawer: const Drawers(),
+      drawer: Drawers(),
       body: Column(
         children: [
           Padding(

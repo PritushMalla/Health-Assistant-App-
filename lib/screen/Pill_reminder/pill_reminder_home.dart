@@ -37,7 +37,7 @@ class _PillremindState extends State<Pillremind> {
     }
     return Scaffold(
       appBar: AppBar(title: const Text('Pill Reminder')),
-      drawer: const Drawers(),
+      drawer: Drawers(),
       body: Column(
         children: [
           // Top container
@@ -106,10 +106,11 @@ class _PillremindState extends State<Pillremind> {
                             color: Color.fromARGB(255, 129, 104, 198),
                           ),
                         ),
-                        Text(
-                          "Every $pillinterval. hours",
-                          style: const TextStyle(fontSize: 10),
-                        ),
+                        if (pillinterval != "null")
+                          Text(
+                            "Every $pillinterval hours",
+                            style: const TextStyle(fontSize: 10),
+                          ),
                       ],
                     ),
                   ),

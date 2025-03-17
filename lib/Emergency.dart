@@ -2,14 +2,14 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 // import 'package:mood_tracker/main.dart';
-//
+
 // class Emergency extends StatelessWidget {
 //   const Emergency({super.key});
-//
-//   _phnumber(String number) async {
-//     await FlutterPhoneDirectCaller.callNumber(number);
+
+//   void _callNumber(String number) async {
+//     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -33,7 +33,7 @@
 //                   Center(
 //                     child: ElevatedButton(
 //                         onPressed: () {
-//                           _phnumber('1336');
+//                           _callNumber('9841-XXXXX');
 //                         },
 //                         child: Text("Call Emergency Hotline ")),
 //                   )

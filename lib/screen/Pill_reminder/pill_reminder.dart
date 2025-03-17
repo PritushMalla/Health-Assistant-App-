@@ -14,6 +14,7 @@ import 'package:mood_tracker/utils/pill_database/databasehelperp.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Reminder extends StatefulWidget {
   final Pill pill;
@@ -281,6 +282,21 @@ class _ReminderState extends State<Reminder> {
   }
 
   Future<void> scheduleNotification(Pill pill) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? lastNotifDate = prefs.getString('last_notification_date');
+
+    String todayDate =
+        DateTime.now().toIso8601String().substring(0, 10); // Format: YYYY-MM-DD
+
+    // Check if a notification has already been sent today
+    if (lastNotifDate == todayDate) {
+      print('Notification already sent today. Skipping...');
+      return;
+    }
+
+    // Save today's date as the last notification date
+    await prefs.setString('last_notification_date', todayDate);
+
     var notifid = generateNofiid();
     var hour = int.parse(pill.time![0] + pill.time[1]);
     var ogvalue = hour;
@@ -364,7 +380,7 @@ class _ReminderState extends State<Reminder> {
               id: 10,
               channelKey: 'basic_channel',
               title: 'Scheduled Notification',
-              body: 'Notification scheduled for $displayhour: $displaymin',
+              body: 'Reminder : Please take your meds on time ',
               payload: {'page': 'Confirm'}),
           schedule: NotificationCalendar(
               hour: hour,

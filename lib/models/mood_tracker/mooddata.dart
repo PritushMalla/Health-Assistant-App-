@@ -1,16 +1,16 @@
 class MoodData {
   int? _id;
-  String _moodtitle = '';
+  String _Healthtitle = '';
   String? _description = ' ';
   String _date = ' ';
 
-  MoodData(this._moodtitle, this._date, [this._description]);
-  MoodData.withId(this._id, this._moodtitle, this._date, [this._description]);
+  MoodData(this._Healthtitle, this._date, [this._description]);
+  MoodData.withId(this._id, this._Healthtitle, this._date, [this._description]);
 
   // Setters with conditions
   set moodtitle(String newmoodTitle) {
     if (newmoodTitle.length <= 255) {
-      _moodtitle = newmoodTitle;
+      _Healthtitle = newmoodTitle;
     }
   }
 
@@ -26,7 +26,7 @@ class MoodData {
 
   // Getters
   int? get id => _id;
-  String get moodtitle => _moodtitle;
+  String get moodtitle => _Healthtitle;
   String? get description => _description;
   String get date => _date;
 
@@ -44,13 +44,13 @@ class MoodData {
   // Convert map to MoodData object
   MoodData.fromMapObject(Map<String, dynamic> map) {
     _id = map['id'];
-    _moodtitle = map['moodtitle'];
+    _Healthtitle = map['moodtitle'];
     _description = map['description'] as String? ?? '';
     _date = map['date']; // Fixing date assignment
   }
 
   MoodData.fromtitleMapObject(Map<String, dynamic> map) {
-    _moodtitle = map['moodtitle'] as String;
+    _Healthtitle = map['moodtitle'] as String;
     _date = map['date'] as String;
   }
 }

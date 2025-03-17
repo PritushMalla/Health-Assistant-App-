@@ -10,7 +10,7 @@ import 'package:mood_tracker/screen/moodtracker/moodicon.dart';
 import 'package:mood_tracker/main.dart';
 import 'package:mood_tracker/screen/moodtracker/moodtracklist.dart';
 import 'package:mood_tracker/utils/form_database/database_helper.dart';
-import 'package:mood_tracker/utils/mood_tracking_database/database_helper_sec.dart';
+import 'package:mood_tracker/utils/health_tracking_database/database_helper_sec.dart';
 import 'package:mood_tracker/screen/moodtracker/moodgraph.dart';
 // class mymood extends StatelessWidget {
 //   @override
@@ -19,13 +19,13 @@ import 'package:mood_tracker/screen/moodtracker/moodgraph.dart';
 //   }
 // }
 
-class Mood {
+class Health {
   String name;
   String moodimage;
   bool iselected;
   late MoodData mooddata;
 
-  Mood(this.moodimage, this.name, this.iselected);
+  Health(this.moodimage, this.name, this.iselected);
 }
 
 class moody extends StatefulWidget {
@@ -53,13 +53,30 @@ class _moodState extends State<moody> {
   String image = ''; // To store the selected mood image
   int ontapcount = 0;
   DatabaseHelper_Mood databaseHelper = DatabaseHelper_Mood();
-
-  List<Mood> moods = [
-    Mood('assets/images/happy.png', 'Happy', false),
-    Mood('assets/images/sad.png', 'Sad', false),
-    Mood('assets/images/angry.png', 'Angry', false),
-    Mood('assets/images/suprised.png', 'Surprised', false),
-    Mood('assets/images/meh.png', 'Neutral', false),
+  // case 'Excellent':
+  //     return 5;
+  //     break;
+  //   case 'Average':
+  //     return 3;
+  //     break;
+  //   case 'Very Poor':
+  //     return 1;
+  //     break;
+  //   case 'Poor':
+  //     return 2;
+  //     break;
+  //   case 'Good':
+  //     return 4;
+  //     break;
+  //   default:
+  //     return 0;
+  //     break; /
+  List<Health> moods = [
+    Health('assets/images/excellent.png', 'Excellent', false),
+    Health('assets/images/happy.png', 'Good', false),
+    Health('assets/images/meh.png', 'Average', false),
+    Health('assets/images/sad-icon.png', 'Poor', false),
+    Health('assets/images/sad.png', 'Very Poor', false),
   ];
 
   final _formKey = GlobalKey<FormState>();
@@ -78,10 +95,10 @@ class _moodState extends State<moody> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        resizeToAvoidBottomInset:false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
-            "Mood Assessment",
+            "Health  Assessment",
           ),
           bottom: const TabBar(
             tabs: [
@@ -112,7 +129,7 @@ class _moodState extends State<moody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Rate your mood',
+                            'Rate your Health Status ',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 11.0,
@@ -166,7 +183,7 @@ class _moodState extends State<moody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Describing how you feel',
+                            'Describe how you feel',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 14.0,
@@ -262,65 +279,56 @@ class _moodState extends State<moody> {
       String moodTitle =
           moodData['moodtitle'] as String? ?? "unknown"; // Extract mood title
       String date = moodData['date'] as String? ?? "unknown";
-      DateTime moodDate = DateTime.tryParse(date) ?? DateTime.now();// Extract date
+      DateTime moodDate =
+          DateTime.tryParse(date) ?? DateTime.now(); // Extract date
       print("Processing Mood Title: $moodTitle, Date: $date"); // Debugging line
       // Get the score for the current mood
       if (moodDate.isAfter(today.subtract(Duration(days: 7)))) {
         // Debugging output
         print("Processing Mood Title: $moodTitle, Date: $date");
 
+        int score = getMoodScore(moodTitle);
+        print("score is $score");
 
-
-
-
-
-
-      int score = getMoodScore(moodTitle);
-      print("score is $score" );
-
-      // Add the score and date to the graph data list
-      graphData.add({
-        'x': entryIndex++,
-        'date': date,
-        'score': score,
-      });
-    }}
+        // Add the score and date to the graph data list
+        graphData.add({
+          'x': entryIndex++,
+          'date': date,
+          'score': score,
+        });
+      }
+    }
 
     return graphData;
   }
 
-  int getMoodScore(String moodTitle) {
-    print("eval moodtitle is $moodTitle");
+  int getMoodScore(String HealthstatusTitle) {
+    print("eval moodtitle is $HealthstatusTitle");
     // Convert to lowercase and trim
-    String normalizedMoodTitle = moodTitle.toLowerCase().trim();
-    print("Normalized mood title: '$normalizedMoodTitle'"); // Log normalized title
+    String normalizedMoodTitle = HealthstatusTitle.toLowerCase().trim();
+    print(
+        "Normalized mood title: '$normalizedMoodTitle'"); // Log normalized title
 
-    switch (moodTitle.toLowerCase().trim()) {
-
-      case 'happy':
+    switch (HealthstatusTitle.toLowerCase().trim()) {
+      case 'excellent':
         return 5;
-      break;
-      case 'neutral':
+      case 'average':
         return 3;
-        break;
-      case 'sad':
+      case 'very Poor':
         return 1;
-        break;
-      case 'angry':
+      case 'poor':
         return 2;
-        break;
-      case 'surprised':
+      case 'good':
         return 4;
-        break;
       default:
         return 0;
-        break;// Unknown mood
+      // Unknown mood
     }
   }
 
   void _save() async {
     if (mood.isEmpty) {
-      _showAlertDialog('Status', 'Please select a mood');
+      _showAlertDialog('Status', 'Please Select Your Health Status');
       return;
     }
 
@@ -342,12 +350,12 @@ class _moodState extends State<moody> {
 
       if (result != 0) {
         Navigator.pop(context, true);
-        _showAlertDialog('Status', 'Mood saved successfully');
+        _showAlertDialog('Status', 'Health Data  saved successfully');
       } else {
         _showAlertDialog('Status', 'Error saving mood');
       }
     } catch (e) {
-      print('Error saving mood: $e'); // Log the error
+      print('Error saving Health Data: $e'); // Log the error
       _showAlertDialog('Status', 'Error saving mood: $e');
     }
   }
